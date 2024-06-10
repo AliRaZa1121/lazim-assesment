@@ -18,8 +18,13 @@ class Task extends Model
         'due_date'
     ];
 
-    public function user()
+    public function assignedBy()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'assigned_by', 'id');
+    }
+
+    public function assignedTo()
+    {
+        return $this->belongsTo(User::class, 'assigned_to', 'id');
     }
 }

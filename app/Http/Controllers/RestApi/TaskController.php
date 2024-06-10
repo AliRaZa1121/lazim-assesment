@@ -21,15 +21,18 @@ class TaskController extends Controller
             ]);
 
             $take = $request->take ?? 10;
-            $page = $request->page ?? 1;
 
             $tasks = Task::when($request->status, function ($query, $status) {
                 return $query->where('status', $status);
             })
                 ->when($request->search, function ($query, $search) {
-                    return $query->whereLike(['title', 'description'], $search);
+                    return $query->where('title', 'like', "%$search%")
+                        ->orWhere('description', 'like', "%$search%");
                 })
-                ->with('user:id,name,email')
+                ->with([
+                    'assignedBy:id,name,email',
+                    'assignedTo:id,name,email'
+                ])
                 ->orderBy('id', 'desc')
                 ->paginate($take);
 
@@ -72,7 +75,10 @@ class TaskController extends Controller
     public function show($id)
     {
         try {
-            $task = Task::with('user:id,name,email')->find($id);
+            $task = Task::with([
+                'assignedBy:id,name,email',
+                'assignedTo:id,name,email'
+            ])->find($id);
             if (!$task) {
                 return $this->sendError('Task not found.', 'Task not found.', 404);
             }

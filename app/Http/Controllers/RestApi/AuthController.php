@@ -115,7 +115,8 @@ class AuthController extends Controller
             }
 
             $user = User::where('email', $request->email, 'email_verified_at', null)->first();
-            if (!empty($user)) {
+
+            if (empty($user)) {
                 return $this->sendError('Email already verified.', ['Email already verified.'], 400);
             }
 
@@ -131,7 +132,7 @@ class AuthController extends Controller
                     . "If you did not request this verification, please ignore this email.<br><br>"
             ], 'email-templates.common');
 
-            return response()->json(['message' => 'OTP sent to your email.'], 200);
+            return $this->sendResponse(['message' => 'OTP sent to your email.'], 'OTP sent to your email.');
         } catch (\Throwable $th) {
             return $this->sendError('Server Error.', $th->getMessage(), 500);
         }
