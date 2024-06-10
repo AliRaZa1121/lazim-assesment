@@ -47,6 +47,19 @@ Generate a new application key
 
     php artisan migrate
 
+Run Project By using
+
+    php artisan serve
+
+# Postman Collection
+
+Here is the information about the Postman Collection:
+
+-   [Postman Collection Documentation](https://documenter.getpostman.com/view/21068385/2sA3XLG52d)
+-   [Download Postman Collection](https://www.postman.com/downloads)
+
+Feel free to explore and use the Postman Collection for your API testing needs.
+
 ## Learning Laravel
 
 Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
